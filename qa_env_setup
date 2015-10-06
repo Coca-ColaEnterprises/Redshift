@@ -1,0 +1,19 @@
+/*create 3 schemas for stating, final table and BI/enduser views*/
+create schema datalake_stg;
+create schema datalake_tbl;
+create schema datalake;
+/*create groups for users*/
+create group datalake_dev_group;
+create group datalake_user_group;
+create group datalake_etl_group;
+create group datalake_bi_group;
+/*usage to all on all*/
+grant usage on schema datalake_tbl,datalake_stg,datalake to group datalake_etl_group,group datalake_dev_group,group datalake_etl_group,group datalake_bi_group;
+/*select on datalake schema to all*/
+grant select on all tables in schema datalake to  group datalake_etl_group,group datalake_dev_group,group datalake_user_group,group datalake_bi_group;
+/*select on datalake table to ETL user and developers*/
+grant select on all tables in schema datalake_tbl to  group datalake_etl_group,group datalake_dev_group;
+/*SIUD on staging and table schema to ETL and developers*/
+grant select,insert,update,delete on all tables in schema datalake_stg,datalake_tbl to group datalake_etl_group,group datalake_dev_group;
+
+
